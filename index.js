@@ -1,9 +1,7 @@
-const TelegramBot = require('node-telegram-bot-api');
 require('dotenv').config();
-
+const TelegramBot = require('node-telegram-bot-api');
 const token = process.env.TELETOKEN;
 const bot = new TelegramBot(token, { polling: true });
-
 
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, `Hi ${msg.from.first_name}, Welcome to FM Bot!\nEnter Episode number you want watch\nExample: 5`);
@@ -17,6 +15,11 @@ function isNumber(value) {
   return !isNaN(value) && value.trim() !== "";
 }
 
+// app.js
+const dict_data = require('./file.js');  // Adjust the path as necessary
+
+// console.log(dict);
+/*
 dict_data = {
     1: "https://freeterabox.com/s/1CbQZnj0_AIq-lQTHrRRJUA",
     2: "https://freeterabox.com/s/1OeHlNmu23vTyTn-hVVYMnQ",
@@ -118,8 +121,234 @@ dict_data = {
     98: "https://freeterabox.com/s/1JtReIz4cBFQk_CcZbLmXfQ",
     99: "https://freeterabox.com/s/1JEbwtNw_7GgjjG1V2ljmVw",
     100: "https://freeterabox.com/s/1a6HoMG53nYOlXleE-vlpTw",
-    101: "https://test.com"
+    101: "https://freeterabox.com/s/1eiY_JSroC-ywsUTaBRrW5A",
+    102: "https://freeterabox.com/s/1nh0ETxE3rrNa9xi_kpv8Aw",
+    103: "https://freeterabox.com/s/1yZOh_9jGixiCPnsfhWDHCA",
+    104: "https://freeterabox.com/s/1qV8_osOzcidjLn09hAPPmQ",
+    105: "https://freeterabox.com/s/1WDO7zhzFSemXx5JoRXFITQ",
+    106: "https://freeterabox.com/s/1y_VHX6WTSFoLfQvSJJQzQQ",
+    107: "https://freeterabox.com/s/1k4zc1gt0dSv8Dwh62-4jGQ",
+    108: "https://freeterabox.com/s/1N1mUI8DzeYnnjmx9zGXr9g",
+    109: "https://freeterabox.com/s/1rTsZd5nPoQnpDnSZfD_7ow",
+    110: "https://freeterabox.com/s/1keVn2ytElTEUt2n5vI29gA",
+    111: "https://freeterabox.com/s/1rjA-s4woD2XY4106F2FwXw",
+    112: "https://freeterabox.com/s/1T_NcGSDOQtaUhTvlWJxU_Q",
+    113: "https://freeterabox.com/s/1pf1hJGIjhNHfi75AT911HQ",
+    114: "https://freeterabox.com/s/17xZ0T3wghxiJSFrhFQvGoA",
+    115: "https://freeterabox.com/s/17IvqNJbaLO9sP6_398zVkg",
+    116: "https://freeterabox.com/s/14p6fwbat4cnI_xPctkZZlQ",
+  117: "https://freeterabox.com/s/1kAHCrnuwxUNBSOKkxSatsQ",
+  118: "https://freeterabox.com/s/1i0hmP_3HZRWbRd_r6j9QRQ",
+  119: "https://freeterabox.com/s/1Ers85f9rz7zDY8Jh1Y7HDQ",
+  120: "https://freeterabox.com/s/1yRvDp3K_0mkods2732Ig8A",
+  121: "https://freeterabox.com/s/1BrL14bHML-i1AK0NBS84bA",
+  122: "https://freeterabox.com/s/1LGXm-uLYQh0uAPeh2Y9qYQ",
+  123: "https://freeterabox.com/s/1mUqxfYR2IiWvobRnd6AzNQ",
+  124: "https://freeterabox.com/s/1Q7GBW4Xh8_Z2dLwUz_x9JQ",
+  125: "https://freeterabox.com/s/1m9jSHhi2dojXWkFIkjMa2w",
+  126: "https://freeterabox.com/s/1zqyjoNoIcuZMfWHrsCwDKg",
+  127: "https://freeterabox.com/s/11VIvXNa32nFEqT1eifpIqg",
+  128: "https://freeterabox.com/s/1tTTpaLI5n3EA3DcnmZ0mGQ",
+  129: "https://freeterabox.com/s/17LEVSkRX2P6fV76BMPCc3A",
+  130: "https://freeterabox.com/s/19eTi9tbC5Q0miAt0JlfUZg",
+  131: "https://freeterabox.com/s/1Q-G_Y8ctfl2e4yk1gaZaxg",
+  132: "https://freeterabox.com/s/1ye9ES3ss1sdV_b-Kc8-wyg",
+  133: "https://freeterabox.com/s/1hu9iuYONiq7OxDE_QkRT_w",
+  134: "https://freeterabox.com/s/1UlM8dhkOIoMuKAjEtx1shw",
+  135: "https://freeterabox.com/s/1MZU5aeg1vpjbsPiFC10kxw",
+  136: "https://freeterabox.com/s/1TI1pqFy3W0YoPsIlNrsaWg",
+  137: "https://freeterabox.com/s/11EIC1WHzJ6W50_BfS8uEpQ",
+  138: "https://freeterabox.com/s/13ZQyMJj8CO376aeftTtSwA",
+  139: "https://freeterabox.com/s/1szRCQ2UcEZCNeI9mU23JZg",
+  140: "https://freeterabox.com/s/1WCAu37IB7nszLdk8zwZ3CQ",
+  141: "https://freeterabox.com/s/1Qj43tIyd9a1yHrisVdwOIw",
+  142: "https://freeterabox.com/s/1z2gmYLiqTuJ10CXQ0vEOeg",
+  143: "https://freeterabox.com/s/1UormofYzSClAWQ2KZDV3QA",
+  144: "https://freeterabox.com/s/1o_dygxl5AsSF9Nk1vJ2QlA",
+  145: "https://freeterabox.com/s/1rBfMJ5BhNeUH1QdOpEduhg",
+  146: "https://freeterabox.com/s/1KRhXIr8F-M8CIkXm4siqOA",
+  147: "https://freeterabox.com/s/1zNG6K1GeSjUcdXHvhDMrFw",
+  148: "https://freeterabox.com/s/1tCJAvZ72Kleu-mXkDPJNXA",
+  149: "https://freeterabox.com/s/1pG3WreFdRPFEH2ibHTs-fw",
+  150: "https://freeterabox.com/s/1RLpw-hdmGPxBgbv3AmutFA",
+  151: "https://freeterabox.com/s/16Ds4F-iejBb5YUXmMCbETQ",
+  152: "https://freeterabox.com/s/1MExvw_0egTHDNww4aonxLA",
+  153: "https://freeterabox.com/s/1kA4xR-K4IRYuwAQgy35rnA",
+  154: "https://freeterabox.com/s/1yh8nWtJ_3bUZQ-oyQ8EB9w",
+  155: "https://freeterabox.com/s/1c3K39T3st4CvTgdDHQLrXA",
+  156: "https://freeterabox.com/s/1UmzkWgbUP9ie0wAn0Ak5hw",
+  157: "https://freeterabox.com/s/1AKFIAyrGsqK9O4vg_I0oOA",
+  158: "https://freeterabox.com/s/1a7vAGH3RJDLs6QGI1Sg5xw",
+  159: "https://freeterabox.com/s/1qi0zBhIP20tY56CSES0Ukg",
+  160: "https://freeterabox.com/s/1IlfNSJA5MNyq1AP7QliQHQ",
+  161: "https://freeterabox.com/s/1pHGcwAKeSwrU1q16Ax_YEw",
+  162: "https://freeterabox.com/s/1njOEo5RkXgdz75k7FaAQqw",
+  163: "https://freeterabox.com/s/1tFL7um5BchrdgmXIVIWEHw",
+  164: "https://freeterabox.com/s/1wf7RiBO6bIEQEwgFyawYhQ",
+  165: "https://freeterabox.com/s/1Zw1jqYmzRX_k8W-tfUWiQg",
+  166: "https://freeterabox.com/s/1NrfuWDGz7XOthJNpiIND-g",
+  167: "https://freeterabox.com/s/1v-fVNQkuUHSpFjx0zCVu3w",
+  168: "https://freeterabox.com/s/12NSGhZFp9LvZDTHiPuKL8Q",
+  169: "https://freeterabox.com/s/1HGQlzay3WpgMoaR4KOeU8g",
+  170: "https://freeterabox.com/s/1VchWzKUHaLNLeOVoFYmDyg",
+  171: "https://freeterabox.com/s/1IXHKzm_ag0R3tyl147l5ag",
+  172: "https://freeterabox.com/s/1pQqkDTKPHhk2OqmgqKUshw",
+  173: "https://freeterabox.com/s/14oPyCmYwyK0V-J8flqHMzw",
+  174: "https://freeterabox.com/s/1y24IUAawoRyg4s-anAqZ7Q",
+  175: "https://freeterabox.com/s/1iDq4H4Ca0P8l5_jxepE_qQ",
+  176: "https://freeterabox.com/s/1VevFSnRfhxfzwRYKXaCFdA",
+  177: "https://freeterabox.com/s/1dwd1SdbOhHKxj3omZY5cMw",
+  178: "https://freeterabox.com/s/1bi9ZhSe5WkoP8NYGSQe-uQ",
+  179: "https://freeterabox.com/s/1ZqAhw8Phe-q79HEaMe7C3Q",
+  180: "https://freeterabox.com/s/1liA1vXsP1AryDQ51HKESeA",
+  181: "https://freeterabox.com/s/19QeGrszVJoNzsfOP7CcKsQ",
+  182: "https://freeterabox.com/s/1y75SFJxjHiRVYkCWnUfJdw",
+  183: "https://freeterabox.com/s/1jQMojhvPGaFWw33qVYWh9A",
+  184: "https://freeterabox.com/s/1Mn80YtrwNmc-mKti1Pwp9Q",
+  185: "https://freeterabox.com/s/1KrB_urmjaKNHv5LKQ9EZxg",
+  186: "https://freeterabox.com/s/1bAdgKevQv2nMPcUTJvL9pQ",
+  187: "https://freeterabox.com/s/14n03thJJ1xp-qqUWXzGADg",
+  188: "https://freeterabox.com/s/1GT6aaOWSz66txGWpd9LAPw",
+  189: "https://freeterabox.com/s/1eb5FjgdCBtXIveolg9K-JQ",
+  190: "https://freeterabox.com/s/1QVnrZraRNgm3bP0Tfak9BA",
+  191: "https://freeterabox.com/s/1QcOQwzSnIbuBu--FcSahuw",
+  192: "https://freeterabox.com/s/1voxIiI6euxgZqqmfdpNN9g",
+  193: "https://freeterabox.com/s/1_KvwXjs5-ERbRGd1cuRoQA",
+  194: "https://freeterabox.com/s/1PcVWnb_oEh0DvYLtqu_dxg",
+  195: "https://freeterabox.com/s/14A8CEJuif-NDO4ffW3Ma8g",
+  196: "https://freeterabox.com/s/1Rfp6vZ-izAh8vvSi-0lkcA",
+  197: "https://freeterabox.com/s/1xzr9Pq2gXc95zoEP71Nqqw",
+  198: "https://freeterabox.com/s/1vTkbf033OBKzVGqTzrQ3PQ",
+  199: "https://freeterabox.com/s/1YH7S3BK2Pp2zUP4Tobrhkw",
+  200: "https://freeterabox.com/s/1xYKi8vqE3Td_bkGrv-C_GA",
+  201: "https://freeterabox.com/s/1hIj6GEQW9-9ybMpz9T8vsQ",
+  202: "https://freeterabox.com/s/1IgVR3uECTzYnYkxcB9W9iQ",
+  203: "https://freeterabox.com/s/1nnCU0e2eCeb3imqMXyUBCA",
+  204: "https://freeterabox.com/s/1q0QYeRAE7zJXVDOJmeEHpA",
+  205: "https://freeterabox.com/s/1moBK2cMqY0A-HcNqvYeNsg",
+  206: "https://freeterabox.com/s/1-GqiwXI9qX3waIjWfbXShg",
+  207: "https://freeterabox.com/s/15F5KRY4eDml54vHXsnWu6w",
+  208: "https://freeterabox.com/s/1r07nwvaS4DtapOm-7vbjPQ",
+  209: "https://freeterabox.com/s/1Pip_et0yaGche5TgBJUqNQ",
+  210: "https://freeterabox.com/s/1780-gEj8pvtnp7WRCWg8iQ",
+  211: "https://freeterabox.com/s/1Hw4LX4yl35x4XcWTMU44eg",
+  212: "https://freeterabox.com/s/1hECYqAxXJcQFlJiNU8D7CA",
+  213: "https://freeterabox.com/s/1nSpNFLZEiYAIhQ9Y2Bd8Lg",
+  214: "https://freeterabox.com/s/1T8wP_GoW-FbR5MUGnrx6qg",
+  215: "https://freeterabox.com/s/1g4z554JZdBfm8WVq4o0LRw",
+  216: "https://freeterabox.com/s/1f_L9zPxj0ODXGtYxKricWA",
+  217: "https://freeterabox.com/s/1espBQEo1mHpLohmCx1tg1A",
+  218: "https://freeterabox.com/s/12S3ibOWDqVTG6DZeRIAyCA",
+  219: "https://freeterabox.com/s/1jw3G_I_cq-KXXQk9z4dbfg",
+  220: "https://freeterabox.com/s/1eE6E3gf0rOV8bQUCjOHWAg",
+  221: "https://freeterabox.com/s/1UDEz4K3pDHuapwXIm5VXoA",
+  222: "https://freeterabox.com/s/1G7GohfNr_HCG3C4nu054zg",
+  223: "https://freeterabox.com/s/1ZaknnqPyvBPA0gzCwkUliA",
+  224: "https://freeterabox.com/s/1-IrC6vJlIg1Y_xjcI_3hbg",
+  225: "https://freeterabox.com/s/1hs7VTlHqjfLPMSmWuWMm4A",
+  226: "https://freeterabox.com/s/1uY6m5J7NAiaufcB0df182w",
+  227: "https://freeterabox.com/s/1UvS7gI7kIMZsUSxDrF7nrg",
+  228: "https://freeterabox.com/s/1nnAzi_tFq9iUqINmusbkuw",
+  229: "https://freeterabox.com/s/1YZDybtnW3QM11wCIyKeGMQ",
+  230: "https://freeterabox.com/s/189JC5k0jH7w_zUY4MRc8ow",
+  231: "https://freeterabox.com/s/1vnqrsGEzLGrcm9KB56_4ew",
+  232: "https://freeterabox.com/s/1tAJWUkxsk-kkKqKYWbSFJg",
+  233: "https://freeterabox.com/s/1lEPzoghU8ehFx9vbGbV7ww",
+  234: "https://freeterabox.com/s/1MD8yXAkdeNeYohgskIFy-g",
+  235: "https://freeterabox.com/s/1pCyjpTLC7rZbmiaAhSjkdg",
+  236: "https://freeterabox.com/s/1nANiiaYYNLjeMkzPV77ASg",
+  237: "https://freeterabox.com/s/1KDqYMDBoScC-JiY53n_Hig",
+  238: "https://freeterabox.com/s/1gwDexlUh12YHgleyolaVIg",
+  239: "https://freeterabox.com/s/18X8GRnF8YQ0n0SuO8quDoA",
+  240: "https://freeterabox.com/s/1-Dojr23IMQHEh6EoLop4mg",
+  241: "https://freeterabox.com/s/1Zuk6O5xLR30mDL59XMU6aQ",
+  242: "https://freeterabox.com/s/1LyZOxrsIJIysBn790YYH1Q",
+  243: "https://freeterabox.com/s/1vARdKzRJlfWeRUWWIKD5Ig",
+  244: "https://freeterabox.com/s/17kMq4zWuXv4G9-RwFagztg",
+  245: "https://freeterabox.com/s/1UFtVXWTiIx60r0vcyRrsTQ",
+  246: "https://freeterabox.com/s/1i3GjcVVFZ8cpv_GoiX0Tew",
+  247: "https://freeterabox.com/s/1IEkUpxUaBmrxKHGeaDsGZg",
+  248: "https://freeterabox.com/s/1cKwieVdYXnFxmDkrjoe4NA",
+  249: "https://freeterabox.com/s/1ASoc-Kpv-4Jyxey3mZmwlg",
+  250: "https://freeterabox.com/s/1vQysp5qzyj5z_MjIa5GbtA",
+  251: "https://freeterabox.com/s/1tfEuWEU9ot1VXOFtQA_eIA",
+  252: "https://freeterabox.com/s/19Id6Qec5CAWi1xrqp7Ys0w",
+  253: "https://freeterabox.com/s/1v_9E0knSkud55Nah2ncaQg",
+  254: "https://freeterabox.com/s/1kLHFjw3cpQ15ytDU9FHSKw",
+  255: "https://freeterabox.com/s/1lNq0o8rDqAGZmbwvmc-vlw",
+  256: "https://freeterabox.com/s/1g7oE7ez1FKVPlIZcXPfuIA",
+  257: "https://freeterabox.com/s/1RnMHcnGd_BUrWyJAYn7YIA",
+  258: "https://freeterabox.com/s/1yivYcF3tf05XP3kXNkAxaw",
+  259: "https://freeterabox.com/s/1ItCE6HMokX_a1FUin1pLUA",
+  260: "https://freeterabox.com/s/1JTc02O6qM_ccJd2wvVCWLw",
+  261: "https://freeterabox.com/s/1L6zGw7XTLSPCFmXeRcqK6A",
+  262: "https://freeterabox.com/s/1ImEEeZAZwEmufTjjhhY7nQ",
+  263: "https://freeterabox.com/s/1nDwJkiKl5aKrREKtIG_ylQ",
+  264: "https://freeterabox.com/s/1HAS_ikPVu3VuAdJmsWY2LQ",
+  265: "https://freeterabox.com/s/14wNRBNIc5nwDI7qYWx7OjQ",
+  266: "https://freeterabox.com/s/1OLm9GkW2qAqFwDeNFIML2Q",
+  267: "https://freeterabox.com/s/1HWxAolJLjU8eCsXMCso_9w",
+  268: "https://freeterabox.com/s/1GCs3HZ_MMAMvAregfj9KDw",
+  269: "https://freeterabox.com/s/1-s-elnQzu-RfiE8OtA9UzQ",
+  270: "https://freeterabox.com/s/1VU1g4ojM7JH-r69YL9A6Ag",
+  271: "https://freeterabox.com/s/1OH7plhQryIhlDswtINu5jA",
+  272: "https://freeterabox.com/s/1-dTrNY94hR77n_8pMrbBPg",
+  273: "https://freeterabox.com/s/1VxTTU-LjrCHsmnnyJFV6iw",
+  274: "https://freeterabox.com/s/17QFA3p-0M4tS6jdPsybpMQ",
+  275: "https://freeterabox.com/s/13kIzEpMYsc_plMpmFAmIZg",
+  276: "https://freeterabox.com/s/1Mu2FocneAG3_aVXM--rYDg",
+  277: "https://freeterabox.com/s/1LbZA3N7iivr3AZormChdIQ",
+  278: "https://freeterabox.com/s/15DLasdpYCyP2U8WTNeczxw",
+  279: "https://freeterabox.com/s/1fPOkObR0uROsDYFbcdEW6g",
+  280: "https://freeterabox.com/s/1rDqD0xAPG_c_r5NIOw2k6w",
+  281: "https://freeterabox.com/s/198WGHFGyZD87gjSM1lwVCA",
+  282: "https://freeterabox.com/s/1q_1QcVLygMji4YvRNR9hKQ",
+  283: "https://freeterabox.com/s/1pxAEDioUBHLWkzec9G4uPg",
+  284: "https://freeterabox.com/s/13FG57Yxnmr0VOVPEHPfO3g",
+  285: "https://freeterabox.com/s/1ocsuvPVaEfdC3QpPbVL1CQ",
+  286: "https://freeterabox.com/s/1VTscR_57nXEkU-rqN81VOQ",
+  287: "https://freeterabox.com/s/1o4ih5KSh0PQ62FJhGiKZ6w",
+  288: "https://freeterabox.com/s/18sEqoUhmS0yFvJf7JK3vDQ",
+  289: "https://freeterabox.com/s/1CrpeqaAWjzbdVA-elZQLJQ",
+  290: "https://freeterabox.com/s/1eOKHTlAjfXF0HPFd0NYiAw",
+  291: "https://freeterabox.com/s/13KSIUaqYGHS82NIIkjBqgQ",
+  292: "https://freeterabox.com/s/1IoYrQeCuYs6AYoKc5Hj7XA",
+  293: "https://freeterabox.com/s/1NJGZ8i9TSrB9NoWaRegRfA",
+  294: "https://freeterabox.com/s/1FDICPSgndJH2gvUbfyY4yw",
+  295: "https://freeterabox.com/s/19QXEHhH487sWBI3v8P-t0Q",
+  296: "https://freeterabox.com/s/1xMNkvGvQh5ziLmpJZEMccA",
+  297: "https://freeterabox.com/s/197MTbn37Vs8qOfRhWUVk_A",
+  298: "https://freeterabox.com/s/1YavEXHxKCZiOrZSvwzBmUg",
+  299: "https://freeterabox.com/s/1kwriUGW9WKh25C2Wc54jsg",
+  300: "https://freeterabox.com/s/1qjgFww5WaJ1bkyt04ZgSyQ"
 }
+
+
+const fs = require('fs');
+
+fs.readFile('data.json', 'utf8', (err, jsonString) => {
+  if (err) {
+    console.log("Error reading file:", err);
+    return;
+  }
+  try {
+    const data = JSON.parse(jsonString);
+    const keys = Object.keys(data);
+    const firstKey = keys[1];
+    const firstValue = data[firstKey];
+    console.log(firstValue);
+  } catch (err) {
+    console.log("Error parsing JSON string:", err);
+  }
+});
+*/
+
+
+
+
+
+
+
 
 
 bot.on('message', (msg) => {
