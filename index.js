@@ -3,10 +3,9 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = process.env.TELETOKEN;
 const bot = new TelegramBot(token, { polling: true });
 const dict_data = require('./file.js');
-
-const http = require('http');
-const hostname = '127.0.0.1';
+const express = require('express');
 const PORT = process.env.PORT || 3000;
+const server = express()
 
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, `Hi ${msg.from.first_name}, Welcome to FM Bot!\nEnter Episode number you want watch\nExample: 5`);
@@ -60,13 +59,11 @@ bot.on('message', async(msg) => {
   }
 });
 
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello, HTTP world!\n');
+server.get('/', (req, res) => {
+    res.send('Hello, HTTP world!\n');
 });
 
-server.listen(PORT, hostname, () => {
-    console.log(`Server running at http://${hostname}:${PORT}/`);
+server.listen(PORT, () => {
+    console.log(`Server running at ${PORT}`);
 });
 
