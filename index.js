@@ -4,6 +4,10 @@ const token = process.env.TELETOKEN;
 const bot = new TelegramBot(token, { polling: true });
 const dict_data = require('./file.js');
 
+const http = require('http');
+const hostname = '127.0.0.1';
+const port = 3000;
+
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, `Hi ${msg.from.first_name}, Welcome to FM Bot!\nEnter Episode number you want watch\nExample: 5`);
 });
@@ -55,3 +59,14 @@ bot.on('message', async(msg) => {
    }
   }
 });
+
+const server = http.createServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Hello, HTTP world!\n');
+});
+
+server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+
