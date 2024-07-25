@@ -2,56 +2,113 @@ require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 const token = process.env.TELETOKEN;
 const bot = new TelegramBot(token, { polling: true });
-const dict_data = require('./file.js');
+const fs = require('fs');
+
+var dict_data = 'Insta_Empire';
+
+function roll(jsonss) {
+fs.readFile(jsonss+'.json', 'utf8', (err, data) => {
+  try {
+    const jsonData = JSON.parse(data);
+    dict_data = jsonData;
+  } catch (parseErr) {
+    console.error('Error parsing JSON:', parseErr);
+  }
+});
+}
+
+function capFirst(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+var currentStory = 'Insta Empire';
+const texts = [
+   'Please choose the story:\n',
+   '/Insta_Empire',
+   '/Insta_Millionaire',
+   '/Chosen_by_fate_Reject_by_alpha'
+];
 
 bot.onText(/\/start/, (msg) => {
-  bot.sendMessage(msg.chat.id, `Hi ${msg.from.first_name}, Welcome to FM Bot!\nEnter Episode number you want watch\nExample: 5`);
+  const chatId = msg.chat.id;
+  const text = `Hi *${capFirst(msg.from.first_name)}* *${capFirst(msg.from.last_name)}*,\n_Welcome to *FMBOT*_ \n_To choose story click /stories_`;
+  const mode = { "parse_mode": "MarkdownV2" };
+  bot.sendMessage(chatId, text, mode);
 });
 
-bot.onText(/\/help/, (msg) => {
-  bot.sendMessage(msg.chat.id, "Just Enter the Episode Number of Insta Empire");
+bot.onText(/\/stories/, (msg) => {
+  const chatId = msg.chat.id;
+  const formattedText = texts.join('\n\n');
+  bot.sendMessage(chatId, formattedText);
 });
 
-bot.onText(/\/about/, (msg) => {
-  bot.sendMessage(msg.chat.id, "Get 5 Episodes from which you Entered!!");
-})
+bot.onText(/\/shows/, (msg) => {
+  const chatId = msg.chat.id;
+  const texts = [
+   '_Insta Empire\n1682 • Final EP_',
+   '_Insta Millionaire\n1384 • Final EP_',
+   '_Chosen by fate Reject by alpha\n430 • Final EP_'
+  ];
+  const formattedText = texts.join('\n\n');
+  const mode = { "parse_mode": "MarkdownV2" };
+  bot.sendMessage(chatId, formattedText, mode);
+});
 
-function isNumber(value) {
-  return !isNaN(value) && value.trim() !== "";
-}
+bot.onText(/\/(\w+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const command = match[1];
+  const mode = { "parse_mode": "MarkdownV2" };
+  if (texts.includes('/'+command)) {
+     var rep = command.replaceAll('_', ' ');
+     currentStory = rep;
+     roll(command);
+     var text = '*Great,*\n_You have Chosen_\n`*'+rep+'*`\n_Enter the Episode number you want to watch_';
+     bot.sendMessage(chatId, text, mode);
+  }
+//     bot.sendMessage(chatId, '_Oh Smart 😎, Trying to hack me, impossible_', mode);
+});
 
 bot.on('message', async(msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
-
-  if (text && !text.startsWith('/')) {
-    if (isNumber(text)) {
+  const mode = { "parse_mode": "MarkdownV2" };
+  const textAuth = /^\d+$/.test(text);
+  if (textAuth) {
       if (dict_data[text] == undefined) {
-        bot.sendMessage(chatId, `Episode ${text} not uploaded yet \nAsk Admin`);
+        bot.sendMessage(chatId, `_Episode ${text} not uploaded yet \nAsk Admin_`, mode);
       } else {
         let u = parseInt(text);
         const options = {
+           parse_mode: "MarkdownV2",
            reply_markup: {
              inline_keyboard: [
                  [
-                  { text: `Episode – ${u}`, url: `${dict_data[u]}` },
-                  { text: `Episode – ${u+1}`, url: `${dict_data[u+1]}` },
+                  { text: `EP ${u}`, url: `${dict_data[u]}` },
+                  { text: `EP ${u+1}`, url: `${dict_data[u+1]}` },
                  ],
                  [
-                  { text: `Episode – ${u+2}`, url: `${dict_data[u+2]}` },
-                  { text: `Episode – ${u+3}`, url: `${dict_data[u+3]}` },
+                  { text: `EP ${u+2}`, url: `${dict_data[u+2]}` },
+                  { text: `EP ${u+3}`, url: `${dict_data[u+3]}` },
                  ],
                  [
-                  { text: `Episode – ${u+4}`, url: `${dict_data[u+4]}` },
-                  { text: `Say Thanks`, url: `https://buymeacoffee.com/fm0505` },
+                  { text: `EP ${u+4}`, url: `${dict_data[u+4]}` },
+                  { text: `EP ${u+5}`, url: `${dict_data[u+5]}` },
+                 ],
+                 [
+                  { text: `EP ${u+6}`, url: `${dict_data[u+6]}` },
+                  { text: `EP ${u+7}`, url: `${dict_data[u+7]}` },
+                 ],
+                 [
+                  { text: `EP ${u+8}`, url: `${dict_data[u+8]}` },
+                  { text: `EP ${u+9}`, url: `${dict_data[u+9]}` },
+                 ],
+                 [
+                  { text: `BuyMeACoffee`, url: `https://buymeacoffee.com/fm0505` },
                  ],
              ],
            },
         };
-        bot.sendMessage(chatId, 'Please choose Insta Empire ep:', options);
-     }
-   } else {
-      bot.sendMessage(chatId, 'Funny prompt 😂, But it not valid prompt');
-   }
+        bot.sendMessage(chatId, `*${currentStory} Episodes*`, options);
+      }
   }
 });
