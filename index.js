@@ -26,7 +26,11 @@ const texts = [
    'Please choose the story:\n',
    '/Insta_Empire',
    '/Insta_Millionaire',
-   '/Chosen_by_fate_Reject_by_alpha'
+   '/Chosen_by_fate_Reject_by_alpha',
+   '/Rothmans_Secret',
+   '/Rekindled_Heartache',
+   '/Saving_Nora',
+   '/My_Vampire_System'
 ];
 
 bot.onText(/\/start/, (msg) => {
@@ -45,9 +49,13 @@ bot.onText(/\/stories/, (msg) => {
 bot.onText(/\/shows/, (msg) => {
   const chatId = msg.chat.id;
   const texts = [
-   '_Insta Empire\n1682 • Final EP_',
-   '_Insta Millionaire\n1384 • Final EP_',
-   '_Chosen by fate Reject by alpha\n430 • Final EP_'
+   '_*Insta Empire*\n1 to 1682 • Final EP_',
+   '_*Insta Millionaire*\n1 to 1384 • Final EP_',
+   '_*Chosen by fate Reject by alpha*\n1 to 430 • Final EP_',
+   '_*Rothmans Secret*\n1 to 500_',
+   '_*Rekindled Heartache*\n1 to 500_',
+   '_*Saving Nora*\n1 to 500_',
+   '_*My Vampire System*\n1 to 500_'
   ];
   const formattedText = texts.join('\n\n');
   const mode = { "parse_mode": "MarkdownV2" };
@@ -65,7 +73,7 @@ bot.onText(/\/(\w+)/, (msg, match) => {
      var text = '*Great,*\n_You have Chosen_\n`*'+rep+'*`\n_Enter the Episode number you want to watch_';
      bot.sendMessage(chatId, text, mode);
   }
-//     bot.sendMessage(chatId, '_Oh Smart 😎, Trying to hack me, impossible_', mode);
+//   bot.sendMessage(chatId, '_Oh Smart 😎, Trying to hack me, impossible_', mode);
 });
 
 bot.on('message', async(msg) => {
